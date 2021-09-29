@@ -15,7 +15,8 @@
         android:layout_margin="26dp"
         android:clickable="true"
         android:focusable="true"
-        android:src="@android:drawable/ic_input_add" />
+        android:src="@android:drawable/ic_input_add"
+        tools:ignore="ContentDescription" />
 
     <ListView
         android:id="@+id/activity_listViewAlunos"

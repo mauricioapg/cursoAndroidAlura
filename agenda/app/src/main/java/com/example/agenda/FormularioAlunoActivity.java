@@ -5,17 +5,23 @@ import static com.example.agenda.R.menu.activity_formulario_menu_opcoes;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.DialogFragment;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Toast;
+import android.widget.Toolbar;
 
 import com.example.DAO.AlunoDAO;
 import com.example.model.Aluno;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class FormularioAlunoActivity extends AppCompatActivity {
 
@@ -80,23 +86,6 @@ public class FormularioAlunoActivity extends AppCompatActivity {
             finish();
         }
     }
-
-//    private void configurarBotaoSalvar() {
-//        Button botaoSalvar = findViewById(R.id.activity_formulario_botaoSalvar);
-//        botaoSalvar.setOnClickListener((view) -> {
-//            try{
-//                preencherAluno();
-//                Toast.makeText(FormularioAlunoActivity.this, "Aluno salvo!", Toast.LENGTH_SHORT).show();
-//            }
-//            catch (Exception ex){
-//                Toast.makeText(FormularioAlunoActivity.this, ex.getMessage(), Toast.LENGTH_SHORT).show();
-//
-//            }
-//            finally {
-//                finish();
-//            }
-//        });
-//    }
 
     private void inicializarCampos() {
         campoNome = findViewById(R.id.activity_formulario_campoNome);

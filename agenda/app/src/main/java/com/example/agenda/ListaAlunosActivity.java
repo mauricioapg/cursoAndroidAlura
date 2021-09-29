@@ -12,21 +12,15 @@ import android.view.ContextMenu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.Toast;
 
-import com.example.DAO.AlunoDAO;
 import com.example.model.Aluno;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-
-import java.util.List;
 
 public class ListaAlunosActivity extends AppCompatActivity {
 
     public static final String TITULO_APPBAR = "Lista de Alunos";
-    private final AlunoDAO dao = new AlunoDAO();
-    private ArrayAdapter<Aluno> adapter;
+    private final ListaAlunosView listaAlunosView = new ListaAlunosView(this);
 
 
     @Override
@@ -36,27 +30,13 @@ public class ListaAlunosActivity extends AppCompatActivity {
         setTitle(TITULO_APPBAR);
         configurarBotaoNovoAluno();
         configurarListaAlunos();
-
-        dao.salvar(new Aluno("Mauricio", "11985181910", "mauricio@unike.tech"));
-        dao.salvar(new Aluno("Lindsay", "11963447535", "lilika_dias@yahoo.com.br"));
-
     }
 
     private void configurarListaAlunos() {
         ListView listViewAlunos = findViewById(R.id.activity_listViewAlunos);
-        configurarAdapter(listViewAlunos);
+        listaAlunosView.configurarAdapter(listViewAlunos);
         configurarListenerCliquePorItem(listViewAlunos);
         registerForContextMenu(listViewAlunos); //registra o menu do contexto na ListView
-    }
-
-    private void remover(Aluno alunoSelecionado) {
-        dao.remove(alunoSelecionado);
-        adapter.remove(alunoSelecionado);
-        try {
-            Toast.makeText(ListaAlunosActivity.this, "Aluno removido!", Toast.LENGTH_SHORT).show();
-        } catch (Exception ex) {
-            Toast.makeText(ListaAlunosActivity.this, ex.getMessage(), Toast.LENGTH_SHORT).show();
-        }
     }
 
     private void configurarListenerCliquePorItem(ListView listViewAlunos) {
@@ -67,13 +47,6 @@ public class ListaAlunosActivity extends AppCompatActivity {
                 abrirFormularioEdicaoAluno(alunoSelecionado);
             }
         });
-    }
-
-    private void configurarAdapter(ListView listViewAlunos) {
-        adapter = new ArrayAdapter<>
-                (this,
-                        android.R.layout.simple_list_item_1);
-        listViewAlunos.setAdapter(adapter);
     }
 
     private void abrirFormularioEdicaoAluno(Aluno alunoSelecionado) {
@@ -110,10 +83,7 @@ public class ListaAlunosActivity extends AppCompatActivity {
     public boolean onContextItemSelected(@NonNull MenuItem item) {
         int idItemMenuContexto = item.getItemId();
         if (idItemMenuContexto == R.id.activity_itemMenu_remover) {
-            AdapterView.AdapterContextMenuInfo menuInfo =
-                    (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
-            Aluno alunoEscolhido = adapter.getItem(menuInfo.position); //obtém o aluno clicado no adapter
-            remover(alunoEscolhido);
+            listaAlunosView.confirmarRemocaoAluno(item);
         }
         return super.onContextItemSelected(item);
     }
@@ -121,11 +91,8 @@ public class ListaAlunosActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        atualizarLista();
+        listaAlunosView.atualizarLista();
     }
 
-    private void atualizarLista() {
-        adapter.clear();
-        adapter.addAll(dao.todos());
-    }
+
 }
