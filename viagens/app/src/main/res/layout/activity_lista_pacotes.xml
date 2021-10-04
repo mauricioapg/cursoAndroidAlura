@@ -45,13 +45,16 @@
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="@+id/textViewExpeciais"
         app:layout_constraintTop_toBottomOf="@+id/textViewExpeciais" />
-    
+
     <ListView
+        android:id="@+id/lista_pacotes_listView"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/imageView"
-        app:layout_constraintBottom_toBottomOf="parent" />
+        app:layout_constraintVertical_bias="0.0"
+        tools:listitem="@layout/item_pacote" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
