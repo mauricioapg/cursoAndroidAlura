@@ -2,6 +2,7 @@ package com.example.aluraviagens.ui.activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.ListView;
 
@@ -19,10 +20,15 @@ public class ListaPacotesActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lista_pacotes);
+        configurarLista();
+
+        Intent telaPagamentoPacote = new Intent(this, PagamentoActivity.class);
+        startActivity(telaPagamentoPacote);
+    }
+
+    private void configurarLista() {
         ListView listViewPacotes = findViewById(R.id.lista_pacotes_listView);
-
         final List<Pacote> pacotes = new PacoteDAO().lista();
-
         listViewPacotes.setAdapter(new ListaPacotesAdapter(pacotes, this));
     }
 }
