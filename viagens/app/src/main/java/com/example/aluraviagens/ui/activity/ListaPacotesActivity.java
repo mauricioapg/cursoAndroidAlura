@@ -4,6 +4,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.example.aluraviagens.R;
@@ -21,14 +23,25 @@ public class ListaPacotesActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lista_pacotes);
         configurarLista();
-
-        Intent telaPagamentoPacote = new Intent(this, PagamentoActivity.class);
-        startActivity(telaPagamentoPacote);
     }
 
     private void configurarLista() {
         ListView listViewPacotes = findViewById(R.id.lista_pacotes_listView);
         final List<Pacote> pacotes = new PacoteDAO().lista();
         listViewPacotes.setAdapter(new ListaPacotesAdapter(pacotes, this));
+        listViewPacotes.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int posicao, long id) {
+                Pacote pacoteCriado = pacotes.get(posicao);
+                navegarTelaResumoPacote(pacoteCriado);
+            }
+
+            private void navegarTelaResumoPacote(Pacote pacoteCriado) {
+                Intent telaResumoPacote = new Intent(ListaPacotesActivity.this,
+                        ResumoPacoteActivity.class);
+                telaResumoPacote.putExtra(PacoteActivityConstantes.CHAVE_PACOTE, pacoteCriado);
+                startActivity(telaResumoPacote);
+            }
+        });
     }
 }

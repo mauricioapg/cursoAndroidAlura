@@ -2,7 +2,10 @@ package com.example.aluraviagens.ui.activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.example.aluraviagens.R;
@@ -22,10 +25,24 @@ public class PagamentoActivity extends AppCompatActivity {
 
         setTitle(TITULO_TELA);
 
-        Pacote pacoteSaoPaulo = new Pacote("São Paulo", "sao_paulo_sp",
-                2, new BigDecimal("243.99"));
+        Intent intent = getIntent();
+        if(intent.hasExtra(PacoteActivityConstantes.CHAVE_PACOTE)){
+            final Pacote pacote = (Pacote) intent.getParcelableExtra(
+                    PacoteActivityConstantes.CHAVE_PACOTE
+            );
+            exibirValor(pacote);
 
-        exibirValor(pacoteSaoPaulo);
+            Button botaoFinalizarCompra = findViewById(R.id.pagamento_botao_finalizar_compra);
+            botaoFinalizarCompra.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent telaResumoCompra = new Intent(PagamentoActivity.this,
+                            ResumoCompraActivity.class);
+                    telaResumoCompra.putExtra(PacoteActivityConstantes.CHAVE_PACOTE, pacote);
+                    startActivity(telaResumoCompra);
+                }
+            });
+        }
     }
 
     private void exibirValor(Pacote pacoteSaoPaulo) {

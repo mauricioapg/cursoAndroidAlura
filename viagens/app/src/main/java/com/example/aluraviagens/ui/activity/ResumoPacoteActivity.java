@@ -4,9 +4,12 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.provider.CalendarContract;
+import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -32,14 +35,31 @@ public class ResumoPacoteActivity extends AppCompatActivity {
 
         setTitle(TITULO_TELA);
 
-        Pacote pacoteSaoPaulo = new Pacote("São Paulo", "sao_paulo_sp",
-                2, new BigDecimal("243.99"));
+        obterObjeto();
+    }
 
-        exibirImagem(pacoteSaoPaulo);
-        exibirDestino(pacoteSaoPaulo);
-        exibirPeriodo(pacoteSaoPaulo);
-        exibirValor(pacoteSaoPaulo);
-        exibirDatas(pacoteSaoPaulo);
+    private void obterObjeto() {
+        Intent intent = getIntent();
+        if(intent.hasExtra(PacoteActivityConstantes.CHAVE_PACOTE)){
+            final Pacote pacote = (Pacote) intent.getParcelableExtra(
+                    PacoteActivityConstantes.CHAVE_PACOTE);
+            exibirImagem(pacote);
+            exibirDestino(pacote);
+            exibirPeriodo(pacote);
+            exibirValor(pacote);
+            exibirDatas(pacote);
+
+            Button botaoRealizarPagamento = findViewById(R.id.resumo_pacote_botaoRealizarPagamento);
+            botaoRealizarPagamento.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent telaPagamento = new Intent(ResumoPacoteActivity.this,
+                            PagamentoActivity.class);
+                    telaPagamento.putExtra(PacoteActivityConstantes.CHAVE_PACOTE, pacote);
+                    startActivity(telaPagamento);
+                }
+            });
+        }
     }
 
     private void exibirDatas(Pacote pacote) {
