@@ -10,6 +10,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Ceep">
         <activity
+            android:name=".ui.activity.FormularioNotaActivity"
+            android:exported="true" />
+        <activity
             android:name=".ui.activity.ListaNotasActivity"
             android:exported="true">
             <intent-filter>
