@@ -1,5 +1,8 @@
 package com.example.ceep.ui.activity;
 
+import static com.example.ceep.ui.activity.NotaActivitiesConstantes.CHAVE_NOTA;
+import static com.example.ceep.ui.activity.NotaActivitiesConstantes.CODIGO_RESULTADO_NOTA_CRIADA;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -17,8 +20,6 @@ import com.example.ceep.model.Nota;
 public class FormularioNotaActivity extends AppCompatActivity {
 
     public static final String TITULO_TELA = "Insere Nota";
-    private Nota nota;
-    final NotaDAO dao = new NotaDAO();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,9 +59,13 @@ public class FormularioNotaActivity extends AppCompatActivity {
         EditText titulo = findViewById(R.id.formulario_nota_titulo);
         EditText descricao = findViewById(R.id.formulario_nota_descricao);
         Nota notaCriada = new Nota(titulo.getText().toString(), descricao.getText().toString());
+        enviarDadosInsercao(notaCriada);
+    }
+
+    private void enviarDadosInsercao(Nota notaCriada) {
         Intent resultadoInsercao = new Intent();
-        resultadoInsercao.putExtra("nota", notaCriada);
-        setResult(1, resultadoInsercao);
+        resultadoInsercao.putExtra(CHAVE_NOTA, notaCriada);
+        setResult(CODIGO_RESULTADO_NOTA_CRIADA, resultadoInsercao);
         finish();
     }
 }
