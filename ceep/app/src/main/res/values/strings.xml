@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">Ceep</string>
     <string name="salvarNota">Salvar</string>
+    <string name="removerNota">Remover</string>
 </resources>
