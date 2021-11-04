@@ -27,7 +27,7 @@ public abstract class AgendaDatabase extends RoomDatabase {
     public static AgendaDatabase getInstance(Context context){
          return Room
                  .databaseBuilder(context, AgendaDatabase.class, NOME_BANCO_DE_DADOS)
-                .allowMainThreadQueries() //permite acessar o banco na thread principal o ideal seria numa thread separada.fallbackToDestructiveMigration()
+                //.allowMainThreadQueries() //permite acessar o banco na thread principal o ideal seria numa thread separada.fallbackToDestructiveMigration()
                  .addMigrations(TODAS_MIGRATIONS)
                  .build();
     }

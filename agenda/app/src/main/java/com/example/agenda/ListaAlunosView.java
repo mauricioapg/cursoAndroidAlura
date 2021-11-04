@@ -7,11 +7,10 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
-import androidx.room.Room;
 
-import com.example.DAO.AlunoDAO;
+import com.example.agenda.asyncTask.BuscaAlunoTask;
+import com.example.agenda.asyncTask.RemoveAlunoTask;
 import com.example.database.AgendaDatabase;
 import com.example.database.dao.RoomAlunoDAO;
 import com.example.model.Aluno;
@@ -69,13 +68,12 @@ public class ListaAlunosView {
     }
 
     public void atualizarLista() {
-        adapter.atualizar(dao.todos());
+        new BuscaAlunoTask(dao, adapter).execute();
     }
 
     private void remover(Aluno alunoSelecionado) {
         try {
-            dao.remove(alunoSelecionado);
-            adapter.remove(alunoSelecionado);
+            new RemoveAlunoTask(adapter, dao, alunoSelecionado).execute();
             Toast.makeText(this.context, "Aluno removido!", Toast.LENGTH_SHORT).show();
         } catch (Exception ex) {
             Toast.makeText(this.context, ex.getMessage(), Toast.LENGTH_SHORT).show();
