@@ -1,9 +1,12 @@
 <resources>
     <string name="app_name">Agenda</string>
     <string name="nome">Nome</string>
+    <string name="sobrenome">Sobrenome</string>
     <string name="telefone">Telefone</string>
+    <string name="celular">Celular</string>
     <string name="email">E-mail</string>
     <string name="dataNascimento">Data de Nascimento</string>
     <string name="salvar">Salvar</string>
     <string name="remover">Remover</string>
+    <string name="removerTodos">Remover todos</string>
 </resources>

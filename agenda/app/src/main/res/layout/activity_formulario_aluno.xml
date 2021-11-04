@@ -29,6 +29,15 @@
             android:importantForAutofill="no"></EditText>
 
         <EditText
+            android:id="@+id/activity_formulario_campoCelular"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:hint="@string/celular"
+            android:inputType="phone"
+            android:importantForAutofill="no"></EditText>
+
+        <EditText
             android:id="@+id/activity_formulario_campoEmail"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -36,6 +45,5 @@
             android:hint="@string/email"
             android:inputType="textEmailAddress"
             android:importantForAutofill="no"></EditText>
-
     </LinearLayout>
 </ScrollView>

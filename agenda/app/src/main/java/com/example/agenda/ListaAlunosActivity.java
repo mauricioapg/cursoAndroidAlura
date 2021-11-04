@@ -9,6 +9,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.ContextMenu;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
@@ -19,17 +20,40 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 public class ListaAlunosActivity extends AppCompatActivity {
 
-    public static final String TITULO_APPBAR = "Lista de Alunos";
-    private final ListaAlunosView listaAlunosView = new ListaAlunosView(this);
+    private static final String TITULO_APPBAR = "Lista de Alunos";
+    private ListaAlunosView listaAlunosView;
 
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_lista_alunos);
         setTitle(TITULO_APPBAR);
+        listaAlunosView = new ListaAlunosView(this);
         configurarBotaoNovoAluno();
         configurarListaAlunos();
+    }
+
+    //CRIA O MENU LATERAL DE OPÇÕES
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater()
+                .inflate(R.menu.activity_lista_alunos_menu, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    //ABRE OPÇÃO SELECIONADA NO MENU
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        abrirOpcoesMenu(item);
+        return super.onOptionsItemSelected(item);
+    }
+
+    private void abrirOpcoesMenu(MenuItem item) {
+        int itemId = item.getItemId();
+        if(itemId == R.id.activity_itemMenu_removerTodos){
+            listaAlunosView.confirmarRemocaoTodosAlunos(item);
+        }
     }
 
     private void configurarListaAlunos() {
@@ -75,17 +99,21 @@ public class ListaAlunosActivity extends AppCompatActivity {
     @Override
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
         super.onCreateContextMenu(menu, v, menuInfo);
-        getMenuInflater().inflate(R.menu.activity_lista_alunos_menu, menu);
+        getMenuInflater().inflate(R.menu.activity_lista_remover_aluno_selecionado, menu);
     }
 
     //ABRE O MENU DE CONTEXTO PARA O ITEM SELECIONADO
     @Override
     public boolean onContextItemSelected(@NonNull MenuItem item) {
+        abrirOpcaoRemoverAluno(item);
+        return super.onContextItemSelected(item);
+    }
+
+    private void abrirOpcaoRemoverAluno(@NonNull MenuItem item) {
         int idItemMenuContexto = item.getItemId();
-        if (idItemMenuContexto == R.id.activity_itemMenu_remover) {
+        if (idItemMenuContexto == R.id.activity_remover_alunoSelecionado) {
             listaAlunosView.confirmarRemocaoAluno(item);
         }
-        return super.onContextItemSelected(item);
     }
 
     @Override

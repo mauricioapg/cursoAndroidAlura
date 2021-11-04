@@ -9,23 +9,27 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
+import androidx.room.Room;
 
 import com.example.DAO.AlunoDAO;
+import com.example.database.AgendaDatabase;
+import com.example.database.dao.RoomAlunoDAO;
 import com.example.model.Aluno;
 
 public class ListaAlunosView {
 
-    private final AlunoDAO dao;
     private final ListaAlunosAdapter adapter;
     private final Context context;
+    private RoomAlunoDAO dao;
 
     public ListaAlunosView(Context context) {
         this.context = context;
         this.adapter = new ListaAlunosAdapter(this.context);
-        this.dao = new AlunoDAO();
+        AgendaDatabase database = AgendaDatabase.getInstance(this.context);
+        dao = database.getRoomAlunoDAO();
     }
 
-    public void confirmarRemocaoAluno(@NonNull MenuItem item) {
+    public void confirmarRemocaoAluno(final MenuItem item) {
         new AlertDialog
                 .Builder(context)
                 .setTitle("Removendo aluno")
@@ -37,6 +41,23 @@ public class ListaAlunosView {
                                 (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
                         Aluno alunoEscolhido = adapter.getItem(menuInfo.position); //obtém o aluno clicado no adapter
                         remover(alunoEscolhido);
+                    }
+                })
+                .setNegativeButton("Não", null)
+                .show();
+    }
+
+    public void confirmarRemocaoTodosAlunos(final MenuItem item) {
+        new AlertDialog
+                .Builder(context)
+                .setTitle("Removendo todos")
+                .setMessage("Tem certeza que deseja remover todos os alunos?")
+                .setPositiveButton("Sim", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        AdapterView.AdapterContextMenuInfo menuInfo =
+                                (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
+                        removerTodos();
                     }
                 })
                 .setNegativeButton("Não", null)
@@ -58,6 +79,17 @@ public class ListaAlunosView {
             Toast.makeText(this.context, "Aluno removido!", Toast.LENGTH_SHORT).show();
         } catch (Exception ex) {
             Toast.makeText(this.context, ex.getMessage(), Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    public void removerTodos(){
+        try {
+            dao.removeTodos(dao.todos());
+            adapter.removeTodos();
+            Toast.makeText(context, "alunos removidos!", Toast.LENGTH_SHORT).show();
+        }
+        catch (Exception ex){
+            Toast.makeText(context, ex.getMessage(), Toast.LENGTH_SHORT).show();
         }
     }
 }

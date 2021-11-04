@@ -7,7 +7,10 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
+import com.example.database.AgendaDatabase;
+import com.example.database.dao.RoomTelefoneDAO;
 import com.example.model.Aluno;
+import com.example.model.Telefone;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,9 +19,11 @@ public class ListaAlunosAdapter extends BaseAdapter {
 
     private final List<Aluno> alunos = new ArrayList<>();
     private final Context context;
+    RoomTelefoneDAO dao;
 
     public ListaAlunosAdapter(Context context) {
         this.context = context;
+        dao = AgendaDatabase.getInstance(context).getRoomTelefoneDAO();
     }
 
     @Override
@@ -48,7 +53,11 @@ public class ListaAlunosAdapter extends BaseAdapter {
         TextView nome = viewCriada.findViewById(R.id.item_lista_nome);
         nome.setText(alunoDevolvido.getNome());
         TextView telefone = viewCriada.findViewById(R.id.item_lista_telefone);
-        telefone.setText(alunoDevolvido.getTelefone());
+        Telefone primeiroTelefone = dao.buscaPrimeiroTelefone(alunoDevolvido.getId());
+        telefone.setText(primeiroTelefone.getNumero());
+//        if(primeiroTelefone != null){
+//            telefone.setText(primeiroTelefone.getNumero());
+//        }
     }
 
     private View criarView(ViewGroup viewGroup) {
@@ -59,6 +68,11 @@ public class ListaAlunosAdapter extends BaseAdapter {
 
     public void remove(Aluno alunoSelecionado) {
         alunos.remove(alunoSelecionado);
+        notifyDataSetChanged();
+    }
+
+    public void removeTodos() {
+        alunos.clear();
         notifyDataSetChanged();
     }
 
