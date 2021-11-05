@@ -11,6 +11,7 @@ import androidx.appcompat.app.AlertDialog;
 
 import com.example.agenda.asyncTask.BuscaAlunoTask;
 import com.example.agenda.asyncTask.RemoveAlunoTask;
+import com.example.agenda.asyncTask.RemoverTodosAlunosTask;
 import com.example.database.AgendaDatabase;
 import com.example.database.dao.RoomAlunoDAO;
 import com.example.model.Aluno;
@@ -82,8 +83,7 @@ public class ListaAlunosView {
 
     public void removerTodos(){
         try {
-            dao.removeTodos(dao.todos());
-            adapter.removeTodos();
+            new RemoverTodosAlunosTask(dao, adapter).execute();
             Toast.makeText(context, "alunos removidos!", Toast.LENGTH_SHORT).show();
         }
         catch (Exception ex){
